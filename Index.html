@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial de Nina Queen, cantora, compositora. Ouça suas músicas, veja a agenda de shows, participe de campanhas e saiba mais sobre a artista.">
+    <title>Nina Queen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6; /* Purple */
+            --secondary: #f43f5e; /* Pink */
+            --dark: #1e293b; /* Slate 800 */
+            --light: #f8fafc; /* Slate 50 */
+            --background: #0f172a; /* Slate 900 */
+            --button-bg: #334155; /* Slate 700 */
+            --button-hover-bg: #475569; /* Slate 600 */
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-tab {
+            background-color: var(--button-bg);
+            color: var(--light);
+            padding: 0.5rem 0.75rem; /* Reduced padding */
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background-color: var(--button-hover-bg);
+        }
+
+        .nav-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .product-card:hover, .gallery-item:hover img {
+             transform: translateY(-5px);
+             transition: transform 0.3s ease;
+        }
+        /* Ajuste para manter o efeito hover no container, mesmo com a imagem dentro de um link */
+         .gallery-item:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+         }
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Banner styles */
+        .banner-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 18.2%; /* Default ratio, primarily for desktop */
+            overflow: hidden;
+        }
+
+        .banner-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.postimg.cc/Y9kX5n7K/banner-topo.png');
+            background-size: cover;
+            background-position: center; /* Default position */
+            animation: bannerFade 8s infinite;
+        }
+
+        .banner-shadow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; /* Default height */
+            background: linear-gradient(to top, rgba(15, 23, 42, 1), rgba(15, 23, 42, 0));
+            z-index: 1;
+        }
+
+        @keyframes bannerFade {
+            0% { opacity: 0.9; }
+            50% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+
+        /* Lightbox CSS */
+        #lightbox-overlay {
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lightbox-overlay.active {
+            display: flex;
+        }
+
+        body.lightbox-open {
+            overflow: hidden;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+            .banner-container {
+                padding-bottom: 70%;
+            }
+            .banner-shadow {
+                height: 60px;
+            }
+            .artist-avatar { width: 120px; height: 120px; }
+            .nav-tabs-container {
+                max-width: 100%;
+                overflow-x: auto; /* Allow horizontal scrolling */
+                white-space: nowrap; /* Keep buttons in one line */
+                padding-bottom: 8px;
+                /* Ensure scrollbar is visible if needed */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            }
+             /* Remove specific margin rule for buttons, use space-x */
+            /* .nav-tabs-container .nav-tab { margin-right: 0.5rem; } */
+            /* .nav-tabs-container .nav-tab:last-child { margin-right: 0; } */
+        }
+
+        /* Desktop Specific Adjustments */
+        @media (min-width: 768px) {
+             /* Restore padding for desktop if desired (optional, current padding is smaller) */
+             .nav-tab {
+                 padding: 0.5rem 1rem;
+             }
+            .banner-image {
+                background-position: center 35%;
+            }
+             .banner-shadow {
+                height: 115px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+    <!-- Banner -->
+    <div class="banner-container">
+        <div class="banner-image" aria-label="Banner promocional de Nina Queen"></div>
+        <div class="banner-shadow"></div>
+    </div>
+
+    <!-- Artist Info -->
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+        <div class="flex flex-col items-center">
+             <!-- Avatar margin updated for desktop -->
+             <div class="artist-avatar w-36 h-36 md:w-48 md:h-48 rounded-full border-4 border-white overflow-hidden shadow-lg bg-gray-800 -mt-18 md:mt-0">
+                <img src="https://i.postimg.cc/QMcbrQMq/Imagem-do-Whats-App-de-2025-03-26-s-20-52-23-9f58f16c.jpg" alt="Foto de perfil de Nina Queen" class="w-full h-full object-cover">
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold mt-4">Nina Queen</h2>
+            <p class="text-gray-300 mt-1">Cantora • Compositora</p>
+            <!-- Social Links -->
+            <div class="flex space-x-4 mt-4" aria-label="Redes sociais e plataformas de Nina Queen">
+                <a href="https://open.spotify.com/artist/0TEYuCQTKKQmcxvqN1Q1rq?si=HCWY6j5aSAGYdnbwKXDllA" target="_blank" class="social-icon text-4xl text-gray-300 hover:text-green-500" aria-label="Spotify de Nina Queen"><i class="fab fa-spotify"></i></a>
+                <a href="https://www.instagram.com/ninaqueenreal?igsh=MWhqOHNpNDA2Z2U3dw==" target="_blank" class="social-icon text-4xl text-gray-300 hover:text-pink-500" aria-label="Instagram de Nina Queen"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@ninaqueenoficial" target="_blank" class="social-icon text-4xl text-gray-300 hover:text-red-500" aria-label="YouTube de Nina Queen"><i class="fab fa-youtube"></i></a>
+                <a href="https://wa.me/5511994880272?text=Ol%C3%A1%2C%20gostaria%20de%20obter%20informa%C3%A7%C3%B5es%20sobre%20os%20shows.%20%F0%9F%98%80" target="_blank" class="social-icon text-4xl text-gray-300 hover:text-green-500" aria-label="Contato via WhatsApp para shows"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <!-- Navigation Tabs -->
+            <!-- *** CONTAINER ADJUSTED FOR SCROLL/CENTERING *** -->
+            <div class="nav-tabs-container mt-8 w-full max-w-md md:flex md:justify-center" role="tablist" aria-label="Navegação principal">
+                <div class="flex space-x-3 md:space-x-4"> <!-- Removed justify-center for mobile -->
+                    <button class="nav-tab active" id="tab-button-music" role="tab" aria-controls="panel-music" aria-selected="true" data-tab="music">Música</button>
+                    <button class="nav-tab" id="tab-button-shows" role="tab" aria-controls="panel-shows" aria-selected="false" data-tab="shows">Agenda</button>
+                    <button class="nav-tab" id="tab-button-about" role="tab" aria-controls="panel-about" aria-selected="false" data-tab="about">Sobre</button>
+                    <button class="nav-tab" id="tab-button-shop" role="tab" aria-controls="panel-shop" aria-selected="false" data-tab="shop">Campanha</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="mt-8">
+            <!-- Music Tab -->
+            <div id="panel-music" role="tabpanel" aria-labelledby="tab-button-music" class="tab-content active">
+                 <h3 class="text-xl font-bold mb-6 text-center">Últimos Lançamentos</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <div class="bg-gray-800 rounded-lg overflow-hidden"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7F9QFocyuPIe5rMc92YT1V?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Player Spotify: Pontas Soltas"></iframe><div class="p-4"><h4 class="font-bold text-sm md:text-base">Pontas Soltas</h4><p class="text-gray-400 text-xs md:text-sm mt-1">Single</p></div></div>
+                    <div class="bg-gray-800 rounded-lg overflow-hidden"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5rPMpu4ShZVhunicasqJ2P?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Player Spotify: Respire e Pare"></iframe><div class="p-4"><h4 class="font-bold text-sm md:text-base">Respire e Pare</h4><p class="text-gray-400 text-xs md:text-sm mt-1">Single</p></div></div>
+                    <div class="bg-gray-800 rounded-lg overflow-hidden"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4SzaGGwfjqaoRfNugpZUAR?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Player Spotify: E se?"></iframe><div class="p-4"><h4 class="font-bold text-sm md:text-base">E se?</h4><p class="text-gray-400 text-xs md:text-sm mt-1">Single</p></div></div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-xl font-bold mb-6 text-center">Ouça nas plataformas</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+                        <a href="https://open.spotify.com/artist/0TEYuCQTKKQmcxvqN1Q1rq?si=HCWY6j5aSAGYdnbwKXDllA" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 md:p-4 flex items-center justify-center transition-colors duration-300"><i class="fab fa-spotify text-2xl md:text-3xl text-green-500 mr-2 md:mr-3" aria-hidden="true"></i><span class="text-sm md:text-base">Spotify</span></a>
+                        <a href="https://music.apple.com/pt/artist/nina-queen/1740974741" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 md:p-4 flex items-center justify-center transition-colors duration-300"><i class="fab fa-apple text-2xl md:text-3xl text-gray-300 mr-2 md:mr-3" aria-hidden="true"></i><span class="text-sm md:text-base">Apple Music</span></a>
+                        <a href="https://www.deezer.com/br/artist/261779361" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 md:p-4 flex items-center justify-center transition-colors duration-300"><i class="fab fa-deezer text-2xl md:text-3xl text-blue-400 mr-2 md:mr-3" aria-hidden="true"></i><span class="text-sm md:text-base">Deezer</span></a>
+                        <a href="https://www.youtube.com/@ninaqueenoficial" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 md:p-4 flex items-center justify-center transition-colors duration-300"><i class="fab fa-youtube text-2xl md:text-3xl text-red-500 mr-2 md:mr-3" aria-hidden="true"></i><span class="text-sm md:text-base">YouTube</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agenda Tab -->
+            <div id="panel-shows" role="tabpanel" aria-labelledby="tab-button-shows" class="tab-content">
+                <h3 class="text-xl font-bold mb-6 text-center">Próximos Eventos</h3>
+                <div class="space-y-3 md:space-y-4">
+                    <div class="bg-gradient-to-r from-purple-900/50 to-gray-800 rounded-lg p-4 md:p-5 flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-3 md:mb-0 w-full md:w-auto">
+                            <div class="text-center mr-4 md:mr-6 flex-shrink-0"> <div class="text-xl md:text-2xl font-bold">27</div> <div class="text-xs md:text-sm uppercase">ABR</div> </div>
+                            <div class="flex-grow"> <h4 class="font-bold text-sm md:text-base">Salvador, BA - Pelourinho (Largo Pedro Archanjo)</h4> <p class="text-gray-400 text-xs md:text-sm">Clássicos dos Anos 80/90</p> </div>
+                        </div>
+                        <div class="flex space-x-2 md:space-x-3 flex-shrink-0 mt-3 md:mt-0"> <span class="bg-gray-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium cursor-default">Gratuito</span> </div>
+                    </div>
+                    <div class="bg-gradient-to-r from-pink-900/50 to-gray-800 rounded-lg p-4 md:p-5 flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-3 md:mb-0 w-full md:w-auto">
+                            <div class="text-center mr-4 md:mr-6 flex-shrink-0"> <div class="text-xl md:text-2xl font-bold">24</div> <div class="text-xs md:text-sm uppercase">MAI</div> </div>
+                            <div class="flex-grow"> <h4 class="font-bold text-sm md:text-base">Santo Antônio de Jesus, BA - Sanctuárium</h4> <p class="text-gray-400 text-xs md:text-sm">Lançamento disco Phoenix</p> </div>
+                        </div>
+                        <div class="flex space-x-2 md:space-x-3 flex-shrink-0 mt-3 md:mt-0"> <a href="https://wa.me/5511994880272?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20show%20de%20lan%C3%A7amento%20em%20Santo%20Ant%C3%B4nio%20de%20Jesus.%20%F0%9F%94%A5" target="_blank" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-300">Mais informações</a> </div>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-900/50 to-gray-800 rounded-lg p-4 md:p-5 flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-3 md:mb-0 w-full md:w-auto">
+                            <div class="text-center mr-4 md:mr-6 flex-shrink-0"> <div class="text-xl md:text-2xl font-bold">25</div> <div class="text-xs md:text-sm uppercase">JUN</div> </div>
+                            <div class="flex-grow"> <h4 class="font-bold text-sm md:text-base">[Cidade] - [Local]</h4> <p class="text-gray-400 text-xs md:text-sm">Lançamento disco Phoenix</p> </div>
+                        </div>
+                        <div class="flex space-x-2 md:space-x-3 flex-shrink-0 mt-3 md:mt-0"> <a href="https://wa.me/5511994880272?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20show%20de%20lan%C3%A7amento%20em%20[Cidade].%20%F0%9F%94%A5" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-300">Mais informações</a> </div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-xl font-bold mb-6 text-center">Vídeos ao Vivo</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div class="bg-gray-800 rounded-lg overflow-hidden"><div class="relative pt-[56.25%]"><iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/lOfqtBqbUSE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Vídeo: Show Chácara baluarte - Salvador-Ba"></iframe></div><div class="p-4"><h4 class="font-bold text-sm md:text-base">Show Chácara baluarte - Salvador-Ba</h4><p class="text-gray-400 text-xs md:text-sm mt-1">Visualizações</p></div></div>
+                        <div class="bg-gray-800 rounded-lg overflow-hidden"><div class="relative pt-[56.25%]"><iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/AP7ejcByT14" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Vídeo: Apresentação no Yacht Clube da Bahia - 2024"></iframe></div><div class="p-4"><h4 class="font-bold text-sm md:text-base">Apresentação no Yacht Clube da Bahia - 2024</h4><p class="text-gray-400 text-xs md:text-sm mt-1">Visualizações</p></div></div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-xl font-bold mb-6 text-center">O que rolou...</h3>
+                    <!-- *** 'O QUE ROLOU' ITEMS UPDATED *** -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div class="gallery-item bg-gray-800 rounded-lg overflow-hidden transition-all duration-300">
+                             <a href="https://youtu.be/3lvXRnzT9Rk?si=pxZr2UZvx2WfZanE" target="_blank" rel="noopener noreferrer" aria-label="Ver Nina Queen em entrevista no podcast Sem Cortes no YouTube">
+                                 <img src="https://i.postimg.cc/158Nv7sX/nina-sem-cortes.png" alt="Nina Queen em entrevista no podcast Sem Cortes" class="w-full aspect-video object-cover">
+                             </a>
+                             <a href="https://youtu.be/3lvXRnzT9Rk?si=pxZr2UZvx2WfZanE" target="_blank" rel="noopener noreferrer" class="block p-2 text-center text-xs text-purple-300 hover:text-purple-200 hover:underline transition-colors duration-300"> Podcast "Sem Cortes" - Bahianotícias </a>
+                        </div>
+                        <div class="gallery-item bg-gray-800 rounded-lg overflow-hidden transition-all duration-300">
+                            <a href="https://www.youtube.com/live/WGbfu_tREL8?si=pHLB0LJhXi0XHl_x" target="_blank" rel="noopener noreferrer" aria-label="Ver Nina Queen no programa Fuzuê da Bahia FM no YouTube">
+                                <img src="https://i.postimg.cc/rFRK1dNt/Fuzu-nina-queen.png" alt="Nina Queen no programa Fuzuê da Bahia FM" class="w-full aspect-video object-cover">
+                            </a>
+                            <a href="https://www.youtube.com/live/WGbfu_tREL8?si=pHLB0LJhXi0XHl_x" target="_blank" rel="noopener noreferrer" class="block p-2 text-center text-xs text-purple-300 hover:text-purple-200 hover:underline transition-colors duration-300"> Programa "Fuzuê" - Bahia FM </a>
+                        </div>
+                        <div class="gallery-item bg-gray-800 rounded-lg overflow-hidden transition-all duration-300">
+                             <a href="https://rollingstone.uol.com.br/musica/nina-queen-convida-o-publico-a-desacelerar-com-o-single-respire-e-paree/" target="_blank" rel="noopener noreferrer" aria-label="Ler matéria sobre Nina Queen na Rolling Stone Brasil">
+                                 <img src="https://i.postimg.cc/bJFwb8GT/nina-queen-rolling-stone.png" alt="Matéria sobre Nina Queen na Rolling Stone Brasil" class="w-full aspect-video object-cover">
+                             </a>
+                            <a href="https://rollingstone.uol.com.br/musica/nina-queen-convida-o-publico-a-desacelerar-com-o-single-respire-e-paree/" target="_blank" rel="noopener noreferrer" class="block p-2 text-center text-xs text-purple-300 hover:text-purple-200 hover:underline transition-colors duration-300"> Matéria - Rolling Stone Brasil </a>
+                        </div>
+                        <div class="gallery-item bg-gray-800 rounded-lg overflow-hidden transition-all duration-300">
+                            <a href="https://www.radiorock.com.br/2025/04/09/nina-queen-lanca-pontas-soltas-primeira-faixa-ep-phoenix/" target="_blank" rel="noopener noreferrer" aria-label="Ler matéria sobre Pontas Soltas na Rádio Rock 89 FM">
+                                <img src="https://i.postimg.cc/CxVLbcKW/Nina-radiorock.png" alt="Nina Queen na Rádio Rock 89 FM" class="w-full aspect-video object-cover">
+                            </a>
+                             <a href="https://www.radiorock.com.br/2025/04/09/nina-queen-lanca-pontas-soltas-primeira-faixa-ep-phoenix/" target="_blank" rel="noopener noreferrer" class="block p-2 text-center text-xs text-purple-300 hover:text-purple-200 hover:underline transition-colors duration-300"> Pontas Soltas - Rádio Rock 89 FM </a>
+                        </div>
+                    </div>
+                     <!-- *** END OF 'O QUE ROLOU' ITEMS UPDATE *** -->
+                </div>
+            </div>
+
+            <!-- Campanha Tab -->
+            <div id="panel-shop" role="tabpanel" aria-labelledby="tab-button-shop" class="tab-content">
+                 <h3 class="text-xl font-bold mb-6 text-center">Campanha</h3>
+                 <!-- Container ajustado para max-w-2xl -->
+                 <div class="max-w-2xl mx-auto">
+                     <!-- *** CARD DA IMAGEM COM CLASSES RESPONSIVAS *** -->
+                     <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/30 mb-6 max-w-sm mx-auto md:max-w-none md:mx-0">
+                         <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Ouvir Amor de App" class="block group"> <!-- Substitua '#' pelo link da música -->
+                             <img src="https://i.postimg.cc/Y9Xgqc8Q/CAPA-AMOR-DE-APP.png" alt="Capa do single Amor de App de Nina Queen" class="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105">
+                         </a>
+                         <div class="p-4">
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="block text-center text-sm font-medium text-purple-300 hover:text-purple-200 hover:underline transition-colors duration-300"> <!-- Substitua '#' pelo link da música -->
+                                Música - Amor de App
+                            </a>
+                        </div>
+                     </div>
+                     <!-- *** FIM DO CARD DA IMAGEM *** -->
+
+                     <!-- Texto da Campanha - INÍCIO -->
+                     <div class="text-gray-400 text-sm md:text-base leading-relaxed px-2 space-y-4">
+                         <h4 class="text-lg font-semibold text-center text-purple-300 mb-4">CAMPANHA “ACHEI O MEU AMOR NO APLICATIVO!”</h4>
+                         <p>Sim, isso aconteceu com Nina Queen — e pode ter acontecido com você também!</p>
+                         <p>No novo single <a href="#" target="_blank" rel="noopener noreferrer" class="text-pink-400 hover:text-pink-300 underline">Amor de App</a>, Nina conta com bom humor (e um pouquinho de trauma) a saga de quem já beijou muito sapo digital… até finalmente dar match com o amor da vida! Agora, ela e Adriano, o verdadeiro “crush definitivo”, querem saber: <span class="font-semibold text-purple-300">Qual é a sua história de amor nascida num app?</span></p>
+                         <p>Vale tudo: romance improvável, encontro desastroso que virou casamento, papo furado que deu em paixão, ou aquele match que você quase ignorou… e ainda bem que não fez isso!</p>
+
+                         <h5 class="font-semibold text-purple-400 pt-2">COMO PARTICIPAR:</h5>
+                         <p>Envie um vídeo, áudio ou texto contando sua história real de amor que começou em um aplicativo de namoro. Aquelas que fazem a gente rir, suspirar, ou pensar: “meu Deus, isso daria um filme!”</p>
+
+                         <h5 class="font-semibold text-purple-400 pt-2">ETAPAS DA CAMPANHA:</h5>
+                         <ol class="list-decimal list-inside space-y-1 pl-4">
+                            <li><strong>Fase 1:</strong> Uma curadoria de Nina + Adriano (e talvez um pouco de intuição de casal) vai escolher as 2 histórias mais incríveis.</li>
+                            <li><strong>Fase 2:</strong> Os autores dessas histórias se encontram com Nina & Adriano para gravar um vídeo contando o babado completo — e convocando o público pra votar!</li>
+                         </ol>
+
+                         <h5 class="font-bold text-pink-400 pt-2 text-center">O PÚBLICO DECIDE!</h5>
+                         <p>A história mais votada nas redes sociais da Nina vai ganhar um final de semana digno de um filme de comédia romântica, com tudo que tem direito:</p>
+                         <ul class="list-disc list-inside space-y-1 pl-4">
+                            <li>Jantar romântico à luz de velas</li>
+                            <li>Sessão de fotos profissional</li>
+                            <li>Passeio de balão (sim, balão MESMO!)</li>
+                            <li>E outras surpresas que só Nina Queen e a Universo Verde Digital sabem entregar!</li>
+                         </ul>
+
+                         <p class="pt-2 text-center font-medium">Então conta pra gente: você também achou seu amor no aplicativo… ou ele achou você?<br> Manda sua história e vem viver esse romance até as alturas — literalmente!</p>
+                     </div>
+                     <!-- Texto da Campanha - FIM -->
+                 </div>
+            </div>
+
+            <!-- About Tab -->
+            <div id="panel-about" role="tabpanel" aria-labelledby="tab-button-about" class="tab-content">
+                 <div class="flex flex-col lg:flex-row gap-6 md:gap-8">
+                    <div class="lg:w-1/2">
+                        <h3 class="text-xl font-bold mb-6 text-center">Biografia</h3>
+                        <div class="bg-gray-800 rounded-xl p-5 md:p-6">
+                            <!-- *** BIOGRAFIA ATUALIZADA *** -->
+                            <p class="mb-3 md:mb-4 text-sm md:text-base">Nina Queen é cantora, compositora e performer baiana, conhecida por sua presença marcante e mistura ousada de pop, rock e dance. Após uma trajetória intensa que inclui shows, premiações e projetos autorais, Nina retorna aos palcos com força total, assinando seu renascimento artístico com o álbum Phoenix.</p>
+                            <p class="mb-3 md:mb-4 text-sm md:text-base">O novo trabalho, previsto para este ano, traz canções inéditas e autorais, compostas em conjunto com seu amor, o empresário e multinstrumentista Adriano Souza Norberto, mergulhando em temas como liberdade, amor-próprio e recomeços — refletindo a força de quem já enfrentou silêncios, mas nunca deixou de cantar. Com produção de Geo Benjamim e faixas como Pontas Soltas e Amor de App, Nina Queen mostra que está mais viva, autêntica e incendiária do que nunca.</p>
+                            <!-- *** FIM DA BIOGRAFIA ATUALIZADA *** -->
+                        </div>
+                        <h3 class="text-xl font-bold mt-8 mb-6 text-center">Tá na Mídia</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="https://www.radiorock.com.br/2025/04/09/nina-queen-lanca-pontas-soltas-primeira-faixa-ep-phoenix/" target="_blank" rel="noopener noreferrer" aria-label="Leia a matéria sobre 'Pontas Soltas' na Rádio Rock / A Tarde" class="block bg-gray-800 rounded-lg p-4 h-20 flex items-center justify-center text-center transition-colors duration-300 hover:bg-gray-700 shadow-md hover:shadow-lg"> <span class="text-sm md:text-base font-medium text-purple-300 hover:text-purple-200">A Tarde / Rádio Rock</span> </a>
+                            <a href="https://egobrazil.ig.com.br/nina-queen-lanca-pontas-soltas-primeira-faixa-do-ep-phoenix/" target="_blank" rel="noopener noreferrer" aria-label="Leia a matéria sobre 'Pontas Soltas' no Ego Brazil" class="block bg-gray-800 rounded-lg p-4 h-20 flex items-center justify-center text-center transition-colors duration-300 hover:bg-gray-700 shadow-md hover:shadow-lg"> <span class="text-sm md:text-base font-medium text-purple-300 hover:text-purple-200">Ego Brazil</span> </a>
+                            <a href="https://elcabong.com.br/event/nina-queen-classicos-anos-80-e-90/" target="_blank" rel="noopener noreferrer" aria-label="Leia a matéria sobre show no El Cabong" class="block bg-gray-800 rounded-lg p-4 h-20 flex items-center justify-center text-center transition-colors duration-300 hover:bg-gray-700 shadow-md hover:shadow-lg"> <span class="text-sm md:text-base font-medium text-purple-300 hover:text-purple-200">El Cabong</span> </a>
+                            <a href="https://www.uranrodrigues.com/nina-queen-encerra-o-ano-com-o-show-classicos-dos-anos-80-90-no-pelourinho/" target="_blank" rel="noopener noreferrer" aria-label="Leia a matéria sobre show no Pelourinho no site Uran Rodrigues" class="block bg-gray-800 rounded-lg p-4 h-20 flex items-center justify-center text-center transition-colors duration-300 hover:bg-gray-700 shadow-md hover:shadow-lg"> <span class="text-sm md:text-base font-medium text-purple-300 hover:text-purple-200">Uran Rodrigues</span> </a>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <h3 class="text-xl font-bold mb-6 text-center">Galeria</h3>
+                        <div class="grid grid-cols-2 gap-3 md:gap-4">
+                             <!-- Imagens da galeria mantêm a funcionalidade de lightbox -->
+                            <div class="bg-gray-800 rounded-xl overflow-hidden"><img src="https://i.postimg.cc/BbbDM1HQ/2.png" alt="Nina Queen sentada no palco durante passagem de som" class="clickable-gallery-image cursor-pointer w-full h-40 md:h-48 object-cover object-top"></div>
+                            <div class="bg-gray-800 rounded-xl overflow-hidden"><img src="https://i.postimg.cc/5NtpRXbz/1.png" alt="Nina Queen cantando em estúdio de gravação" class="clickable-gallery-image cursor-pointer w-full h-40 md:h-48 object-cover object-top"></div>
+                            <div class="bg-gray-800 rounded-xl overflow-hidden"><img src="https://i.postimg.cc/s2zhbL7L/3.png" alt="Nina Queen segurando troféu em premiação" class="clickable-gallery-image cursor-pointer w-full h-40 md:h-48 object-cover object-top"></div>
+                            <div class="bg-gray-800 rounded-xl overflow-hidden"><img src="https://i.postimg.cc/cLyg8z9J/4.png" alt="Nina Queen relaxando no camarim antes do show" class="clickable-gallery-image cursor-pointer w-full h-40 md:h-48 object-cover object-top"></div>
+                        </div>
+                        <!-- *** TÍTULO ATUALIZADO *** -->
+                        <h3 class="text-xl font-bold mt-8 mb-6 text-center">Amigos da Queen</h3>
+                        <!-- *** GRID AMIGOS DA QUEEN COM IMAGENS E ESTILOS ATUALIZADOS *** -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                            <!-- Amigo 1 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 1" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/j212wCXR/1.png" alt="Logo Amigo da Queen 1" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 2 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 2" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/tTSCw78F/2.png" alt="Logo Amigo da Queen 2" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 3 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 3" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/g2Hw4ccH/4.png" alt="Logo Amigo da Queen 3" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 4 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 4" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/YSSS31st/5.png" alt="Logo Amigo da Queen 4" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 5 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 5" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/8JcbysJ1/image.png" alt="Logo Amigo da Queen 5" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 6 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 6" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/GmD2dprv/7.png" alt="Logo Amigo da Queen 6" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 7 -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 7" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/RCP4PcDG/3.png" alt="Logo Amigo da Queen 7" class="object-contain h-full w-full">
+                            </a>
+                            <!-- Amigo 8 (Novo) -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Visitar site do Amigo da Queen 8" class="block bg-gray-800 rounded-lg p-2 flex justify-center items-center transition-transform transform hover:scale-105 hover:shadow-lg aspect-square md:aspect-auto md:h-28">
+                                <img src="https://i.postimg.cc/9XkDkxBf/logos-patrocinadores-site-nina-queen.png" alt="Logo Amigo da Queen 8" class="object-contain h-full w-full">
+                            </a>
+                        </div>
+                        <!-- Fim da Grid dos Amigos da Queen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-900 mt-12 py-6 md:py-8">
+        <div class="container mx-auto px-4 text-center">
+            <!-- *** COPYRIGHT TEXT CHANGED *** -->
+            <p class="text-gray-400 text-sm md:text-base">© Kakorujo - Creative Design. Todos os direitos reservados.</p>
+            <div class="flex justify-center space-x-4 md:space-x-6 mt-3 md:mt-4" aria-label="Links rápidos para redes sociais">
+                <a href="https://www.instagram.com/ninaqueenreal?igsh=MWhqOHNpNDA2Z2U3dw==" target="_blank" class="text-gray-400 hover:text-white" aria-label="Instagram"><i class="fab fa-instagram text-lg md:text-xl"></i></a>
+                <a href="https://wa.me/5511994880272?text=Ol%C3%A1%2C%20gostaria%20de%20obter%20informa%C3%A7%C3%B5es%20sobre%20os%20shows.%20%F0%9F%98%80" target="_blank" class="text-gray-400 hover:text-white" aria-label="WhatsApp"><i class="fab fa-whatsapp text-lg md:text-xl"></i></a>
+                <a href="https://www.youtube.com/@ninaqueenoficial" target="_blank" class="text-gray-400 hover:text-white" aria-label="YouTube"><i class="fab fa-youtube text-lg md:text-xl"></i></a>
+                <a href="https://open.spotify.com/artist/0TEYuCQTKKQmcxvqN1Q1rq?si=HCWY6j5aSAGYdnbwKXDllA" target="_blank" class="text-gray-400 hover:text-white" aria-label="Spotify"><i class="fab fa-spotify text-lg md:text-xl"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Structure (Initially Hidden) -->
+    <div id="lightbox-overlay" class="fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-50 p-4" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="lightbox-image">
+        <button id="lightbox-close" class="absolute top-4 right-6 text-white text-4xl font-bold cursor-pointer leading-none z-10" aria-label="Fechar imagem expandida">&times;</button>
+        <img id="lightbox-image" src="" alt="Imagem Expandida" class="max-w-[90%] max-h-[90%] object-contain">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.nav-tab[role="tab"]');
+            const tabContents = document.querySelectorAll('.tab-content[role="tabpanel"]');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); t.setAttribute('tabindex', '-1'); });
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    tab.setAttribute('tabindex', '0');
+                    const panelId = tab.getAttribute('aria-controls');
+                    const panel = document.getElementById(panelId);
+                    if(panel) { panel.classList.add('active'); }
+                    tab.focus();
+                });
+                if (!tab.classList.contains('active')) { tab.setAttribute('tabindex', '-1'); }
+                else { tab.setAttribute('tabindex', '0'); }
+            });
+
+            // --- Lightbox Functionality ---
+            const lightboxOverlay = document.getElementById('lightbox-overlay');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxClose = document.getElementById('lightbox-close');
+            // Selector agora pega apenas as imagens QUE TÊM a classe (excluindo as de 'O que rolou')
+            const clickableImages = document.querySelectorAll('.clickable-gallery-image');
+            let previouslyFocusedElement = null;
+
+            function openLightbox(imgElement) {
+                previouslyFocusedElement = document.activeElement;
+                lightboxImage.src = imgElement.src;
+                lightboxImage.alt = imgElement.alt || "Imagem expandida";
+                lightboxOverlay.style.display = 'flex';
+                document.body.classList.add('lightbox-open');
+                lightboxClose.focus();
+            }
+
+            function closeLightbox() {
+                lightboxOverlay.style.display = 'none';
+                lightboxImage.src = '';
+                lightboxImage.alt = "Imagem Expandida";
+                document.body.classList.remove('lightbox-open');
+                if (previouslyFocusedElement) { previouslyFocusedElement.focus(); }
+            }
+
+            clickableImages.forEach(img => {
+                 // Só adiciona listeners se a classe estiver presente
+                 if (img.classList.contains('clickable-gallery-image')) {
+                    img.addEventListener('click', function(event) { openLightbox(event.target); });
+                    img.addEventListener('keydown', function(event) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightbox(event.target); } });
+                    img.setAttribute('tabindex', '0'); // Garante que seja focável
+                 }
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxOverlay.addEventListener('click', function(event) { if (event.target === lightboxOverlay) { closeLightbox(); } });
+            document.addEventListener('keydown', function(event) { if (event.key === 'Escape' && lightboxOverlay.style.display === 'flex') { closeLightbox(); } });
+            // --- End Lightbox Functionality ---
+
+        });
+    </script>
+</body>
+</html>
